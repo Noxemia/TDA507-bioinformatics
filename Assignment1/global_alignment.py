@@ -105,7 +105,7 @@ for i in range(tj):
 
 pipes = []
 count = 0
-#Construct new string with | between each matching character
+#Construct new string with | between each matching characters
 for i in range(len(alignedX)):
     if alignedX[i]==alignedY[i]:
         pipes.append("|")

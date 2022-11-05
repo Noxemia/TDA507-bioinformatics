@@ -52,6 +52,8 @@ for y in range(1, n+1):
 
 # perform Needleman-Wunsch algorithm
 # as well as update the traceback matrix
+# with the old and new directions.
+# Cases like UPLEFT signals a branching alignment and will be used in the traceback to determine all aligned sequences
 for i in range(1, m+1):
     for j in range(1,n+1):
         # calculate match/mismatch score
@@ -99,6 +101,8 @@ allTraces = []
 def fnTrace(ti=m, tj=n, alignedX=[], alignedY=[], command=None):
     
 # step back through trackback matrix and determine aligned strings
+    # if we reach a stop we add the missing gaps into the string and then save the aligned strings
+    # as a tuple in a list
     if trace[ti][tj] == STOP:
         for i in range(ti):
             alignedX.insert(0, X[ti-i])
@@ -125,6 +129,8 @@ def fnTrace(ti=m, tj=n, alignedX=[], alignedY=[], command=None):
         alignedX.insert(0, X[ti-1])
         alignedY.insert(0, "-")
         fnTrace(ti-1, tj, copy(alignedX), copy(alignedY) )
+    # Branch on the new directions and forward the two different directions that can be taken.
+    # No updates are performed here since that will be taken care of in the branched instruction
     elif elem == UPLEFT:
         fnTrace(ti, tj, copy(alignedX), copy(alignedY), UP)
         fnTrace(ti, tj, copy(alignedX), copy(alignedY), LEFT)
@@ -141,9 +147,10 @@ def fnTrace(ti=m, tj=n, alignedX=[], alignedY=[], command=None):
         
 fnTrace()
 
+# Print out the alignments 
 for i, pair in enumerate(allTraces):
     print(" ---------- ALIGNMENT {} ----------".format(i+1))
     print("".join(pair[0]))
     print("".join(pair[1]))
-    
+
 print("Total number of alignments", len(allTraces))

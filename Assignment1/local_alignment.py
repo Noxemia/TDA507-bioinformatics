@@ -65,15 +65,18 @@ for i in range(1, m+1):
             score = tmp
             trace[i][j] = LEFT
         
-        # update matrix with the new calculated max score
+        # update matrix with the new calculated max score as well as see if the score is less than 0 in accordance to
+        # the Smith-Waterman extention on Needleman-Wunsch
         if score < 0: score = 0
         matrix[i][j] = score
 
 matrixPrint()
 
-
+#Coordinates for traceback
 ti = 0
 tj = 0
+
+#Find the highest score in the score matrix and set the begning trace coords to that cell.
 highest = 0
 for ci in range(len(matrix)-1):
     for cj in range(len(matrix[0])-1):
