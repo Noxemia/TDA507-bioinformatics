@@ -1,11 +1,10 @@
-from cmath import nan
 from dataclasses import dataclass
 from math import sqrt
-from xmlrpc.client import MAXINT
+import sys
 # Read in data in forms of lines
 data = []
 
-with open("test_q1.txt", "r") as reader:
+with open("data_q1.txt", "r") as reader:
     for line in reader:
         line = line.strip()
         data.append(line)
@@ -65,12 +64,12 @@ for atom in atoms:
     
     #Get the distance between the current atom and all others
     for atom2 in atoms:
-        if atom2.i == atom.i: continue
+        if atom2 == atom: continue
         dist = distance(atom, atom2)
         distances.append((atom2.i, dist))
 
-    close1 = [MAXINT, MAXINT]
-    close2 = [MAXINT, MAXINT]
+    close1 = [sys.maxsize , sys.maxsize]
+    close2 = [sys.maxsize, sys.maxsize]
 
     # Find the closest two, unordered
     for distPair in distances:
