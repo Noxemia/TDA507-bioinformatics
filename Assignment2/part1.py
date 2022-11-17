@@ -88,7 +88,8 @@ for atom in atoms:
 order = [1]
 distances = []
 last = 1
-def walk(atom: Atom, dir: bool, visited: list):
+visited = [1]
+def walk(atom: Atom, dir: bool):
     # either add the current atom number to the start or end of the chain
     if dir:
         order.append(atom.i)
@@ -96,21 +97,21 @@ def walk(atom: Atom, dir: bool, visited: list):
         order.insert(0, atom.i)
     # add the current atom to the visited
     visited.append(atom.i)
-
+    print(visited)
 
     # if the both the closest atoms are visited we stop walking the chain
     if atom.closest[0] in visited and atom.closest[1] in visited: return
 
     # if the first closest atom is in visited we continue the walk on the other, and vice versa
     if atom.closest[0] in visited:
-        walk(atoms[atom.closest[1]-1 ], dir, visited)
+        walk(atoms[atom.closest[1]-1 ], dir)
     elif atom.closest[1] in visited:
-        walk(atoms[atom.closest[0]-1 ], dir, visited)
+        walk(atoms[atom.closest[0]-1 ], dir)
 
 
 # walk both directions with atom 1 as the start
-walk(atoms[atoms[0].closest[0] - 1], True, [1] )
-walk(atoms[atoms[0].closest[1] - 1], False, [1] )
+walk(atoms[atoms[0].closest[1] - 1], False)
+walk(atoms[atoms[0].closest[0] - 1], True)
 print(order)
 
 #find the average lengths
